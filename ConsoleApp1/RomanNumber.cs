@@ -31,6 +31,17 @@ namespace ConsoleApp1
             return new RomanNumber(RomanToInt[input]);
         }
 
-        //public static RomanNumber Parse(string input) => new(1);
+        public static int DigitValue(string digit) => digit switch
+        {
+            "I" => 1,
+            "II" => 2,
+            "III" => 3,
+            "IV" => 4,
+            "V" => 5,
+            "VI" => 6,
+            "VII" => 7,
+            "VIII" => 8,
+            _ => 9
+        };
     }
 }
