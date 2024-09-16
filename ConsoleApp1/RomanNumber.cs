@@ -31,17 +31,16 @@ namespace ConsoleApp1
             return new RomanNumber(RomanToInt[input]);
         }
 
-        public static int DigitValue(string digit) => digit switch
+        public static int DigitValue(char digit) => digit switch
         {
-            "I" => 1,
-            "II" => 2,
-            "III" => 3,
-            "IV" => 4,
-            "V" => 5,
-            "VI" => 6,
-            "VII" => 7,
-            "VIII" => 8,
-            _ => 9
+            'N' => 0,
+            'I' => 1,
+            'V' => 5,
+            'X' => 10,
+            'L' => 50,
+            'C' => 100,
+            'D' => 500,
+            _ => throw new ArgumentException("'RomanNumber.DigitValue': argument 'digit' has invalid value") { Source = "RomanNumber.DigitValue" },
         };
     }
 }

@@ -22,25 +22,68 @@ namespace Tests
         [TestMethod]
         public void DigitValueTest()
         {
-            Dictionary<string, int> testCases = new()
+            Dictionary<char, int> givenCases = new()
             {
-                {"I",    1},
-                {"II",   2},
-                {"III",  3},
-                {"IV",   4},
-                {"V",    5},
-                {"VI",   6},
-                {"VII",  7},
-                {"VIII", 8},
-                {"IX",   9}
+                {'N',   0},
+                {'I',   1},
+                {'V',   5},
+                {'X',   10},
+                {'L',   50},
+                {'C',   100},
+                {'D',   500}
             };
-            foreach (var testCase in testCases) { 
+            foreach (var givenCase in givenCases) { 
                 Assert.AreEqual(
-                    testCase.Value,
-                    RomanNumber.DigitValue(testCase.Key),
-                    $"DigitValue('{testCase.Key}') => {testCase.Value}"
+                    givenCase.Value,
+                    RomanNumber.DigitValue(givenCase.Key),
+                    $"DigitValue('{givenCase.Key}') => {givenCase.Value}"
                 );
             }
+
+            int n = 100;
+            Random random = new Random();
+            
+            List<char> testCases = new List<char>();
+            char symbol;
+
+            for (int i = 0; i < n; i++)
+            {
+                symbol = Convert.ToChar(random.Next(0, 300));
+                if (givenCases.ContainsKey(symbol))
+                    i--;
+                else
+                    testCases.Add(symbol);
+            }
+
+            foreach (var testCase in testCases)
+            {
+                var ex = Assert.ThrowsException<ArgumentException>(
+                    () => RomanNumber.DigitValue(testCase),
+                    $"RomanNumber.DigitValue('{testCase}') must throw FormatException"
+                );
+
+                Assert.IsTrue(ex.Source?.Contains("RomanNumber.DigitValue"),
+                    $"ex.Source must contain origin (class and method): " + $"ex.Source='{ex.Source}'");
+            }
+
+            //{ 
+            //    char testCase = '1';
+            //    var ex = Assert.ThrowsException<ArgumentException>(
+            //       () => RomanNumber.DigitValue(testCase),
+            //       $"DigitValue({testCase}) must trow ArgumentException"
+            //    );
+
+            //    Assert.IsTrue(
+            //        ex.Message.Contains($"invalid value '{testCase}'") &&
+            //        ex.Message.Contains("argument 'digit'"),
+            //        $"ex.Message must contain param name('digit') and its value '{testCase}'. ex.Message: '{ex.Message}'"
+            //    );
+
+            //    Assert.IsTrue(
+            //       ex.Message.Contains("'RomanNumber.DigitValue'"),
+            //       $"ex.Message must contain origin (class and method): '{ex.Message}'"
+            //   );
+            //}
         }
     }
 }
